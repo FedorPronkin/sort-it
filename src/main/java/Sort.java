@@ -31,12 +31,8 @@ public class Sort {
                     sortType = -1;
                 } else if (args[i].contains(DESCENDING)) {
                             sortType = 1;
-                    } else if (args[i].equals(TYPEINTEGER)){
-
+                    } else if (args[i].equals(TYPEINTEGER) || args[i].equals(TYPESTRING)){
                           dataType = args[i];
-                        } else if(args[i].equals(TYPESTRING)) {
-
-                             dataType = args[i];
                         } else {
                          showMessage.showUnknownParams(args[i]);
                      }
