@@ -48,10 +48,6 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Входной файл: " + fileName + " не найден!");
     }
 
-    public void showCastErrorMessage(){
-        System.out.println("Ошибка преобразования данных! Данные будут пропущены!");
-    }
-
     public void showUnknownParams(String param){
         System.out.println("Введен неизвестный параметр (" + param + ")! Параметр будет проигнорирован!");
     }

@@ -16,7 +16,7 @@ public class Sort {
     public static void main(String[] args) {
 
         ShowMessageInterface showMessage = new ShowMessage();
-        ReadWriteInterface readWrite = new ReadWrite();
+
         LogicInterface logic = new Logic();
 
         int sortType = -1;
@@ -31,11 +31,15 @@ public class Sort {
                     sortType = -1;
                 } else if (args[i].contains(DESCENDING)) {
                             sortType = 1;
-                    } else if (args[i].equals(TYPEINTEGER) || args[i].equals(TYPESTRING)) {
-                        dataType = args[i];
-                    } else {
-                    showMessage.showUnknownParams(args[i]);
-                }
+                    } else if (args[i].equals(TYPEINTEGER)){
+
+                          dataType = args[i];
+                        } else if(args[i].equals(TYPESTRING)) {
+
+                             dataType = args[i];
+                        } else {
+                         showMessage.showUnknownParams(args[i]);
+                     }
                 i++;
                 if (i == args.length) {
                     break;
@@ -71,10 +75,12 @@ public class Sort {
             List<String> result = new LinkedList<>();
 
             if(dataType.equals(TYPESTRING)) {
+                 ReadWriteInterface<String> readWrite = new ReadWrite<>();
                  List<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
                  result = logic.sortStringFiles(allFilesReaded, sortType);
 
             } else {
+                 ReadWriteInterface<Integer> readWrite = new ReadWrite<>();
                  List<Integer>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
                     for(int copy : logic.sortIntegerFiles(allFilesReaded, sortType)){
                         result.add(Integer.toString(copy));
@@ -82,6 +88,7 @@ public class Sort {
             }
 
             try {
+                ReadWriteInterface<String> readWrite = new ReadWrite<>();
                 readWrite.writeToFile(result, outputFile);
                 showMessage.showWritingSuccessMessage();
             } catch (IOException error){

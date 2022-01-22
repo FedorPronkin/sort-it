@@ -12,6 +12,5 @@ public interface ShowMessageInterface {
     void showWriteErrorMessage(String error);
     void showWritingSuccessMessage();
     void showNoFilesMessage(String fileName);
-    void showCastErrorMessage();
     void showUnknownParams(String param);
 }
