@@ -3,18 +3,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ReadWrite implements ReadWriteInterface {
+public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T> {
 
-    public LinkedList<String>[] readAllToString(ArrayList<String> inputFiles, String sortType) {
+    ShowMessageInterface showMessage = new ShowMessage();
 
-        LinkedList<String>[] allFilesReaded = new LinkedList[inputFiles.size()];
+    public List<T>[] readAllToString(ArrayList<String> inputFiles, int sortType) {
 
-        int sort;
-        if(sortType.equals("-a")){
-            sort = -1;
-        } else {
-            sort = 1;
-        }
+        List<T>[] allFilesReaded = new LinkedList[inputFiles.size()];
 
         for(int i=0; i < inputFiles.size();i++){
 
@@ -24,17 +19,19 @@ public class ReadWrite implements ReadWriteInterface {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
 
                 String readedString;
-                LinkedList<String> readedFile = new LinkedList<>();
+                LinkedList<T> readedFile = new LinkedList<>();
 
-                while((readedString = reader.readLine())!=null){
+                while((readedString = reader.readLine())!=null) {
 
-                    if(readedString.contains(" ")){
+                    if (readedString.contains(" ") || readedString.equals("")) {
                         showMessage.showDataErrorMessage(readedString);
+                    } else if (readedFile.size() > 0 && ((String) readedFile.get(readedFile.size() - 1)).compareTo(readedString) * sortType < 0) {
+                        showMessage.showNotSortedMessage(readedString);
                     } else {
-                        if(readedFile.size()>0 && (readedFile.get(readedFile.size()-1).compareTo(readedString)*sort < 0)){
-                            showMessage.showNotSortedMessage(readedString);
-                        } else {
-                            readedFile.add(readedString);
+                        try {
+                            readedFile.add((T) readedString);
+                        } catch (ClassCastException e) {
+                            showMessage.showDataErrorMessage(readedString);
                         }
                     }
                 }
@@ -59,62 +56,6 @@ public class ReadWrite implements ReadWriteInterface {
 
        return allFilesReaded;
 
-    }
-
-    public LinkedList<Integer>[] readAllToInteger(ArrayList<String> inputFiles, String sortType) {
-
-        LinkedList<Integer>[] allFilesReaded = new LinkedList[inputFiles.size()];
-
-        int sort;
-        if(sortType.equals("-a")){
-            sort = -1;
-        } else {
-            sort = 1;
-        }
-
-        for(int i=0; i < inputFiles.size();i++){
-
-            try{
-
-                File file = new File(inputFiles.get(i));
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-
-                String readedString;
-                LinkedList<Integer> readedFile = new LinkedList<>();
-
-                while((readedString = reader.readLine())!=null){
-
-                        try {
-                            if(readedFile.size()>0 && (readedFile.get(readedFile.size()-1).compareTo(Integer.parseInt(readedString))*sort < 0)){
-                                showMessage.showNotSortedMessage(readedString);
-                            } else {
-                                readedFile.add(Integer.parseInt(readedString));
-                            }
-                        }catch(NumberFormatException e){
-                            showMessage.showDataErrorMessage(readedString);
-                            showMessage.showNotANumberMessage(readedString);
-                        }
-
-                }
-                reader.close();
-                if(readedFile.size() != 0) {
-                    allFilesReaded[i] = readedFile;
-                }
-
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                showMessage.showOutOfMemoryMessage();
-            }
-            catch(FileNotFoundException e){
-                showMessage.showFileNotFoundMessage(e.getMessage());
-            }
-            catch (IOException e){
-                showMessage.showReadingErrorMessage(e.getMessage());
-
-            }
-
-        }
-        return allFilesReaded;
     }
 
     public void writeToFile(List<String> result, String outFile) throws IOException{

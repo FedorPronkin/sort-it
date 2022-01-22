@@ -1,4 +1,5 @@
 public interface ShowMessageInterface {
+
     void showOutOfDataTypeError();
     void showNoOutFileMessage();
     void showNoInputFileMessage();
@@ -7,9 +8,10 @@ public interface ShowMessageInterface {
     void showFileNotFoundMessage(String error);
     void showReadingErrorMessage(String error);
     void showDataErrorMessage(String data);
-    void showNotANumberMessage(String data);
     void showNotSortedMessage(String data);
     void showWriteErrorMessage(String error);
     void showWritingSuccessMessage();
     void showNoFilesMessage(String fileName);
+    void showCastErrorMessage();
+    void showUnknownParams(String param);
 }

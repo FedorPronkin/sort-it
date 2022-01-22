@@ -3,12 +3,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public interface ReadWriteInterface {
+public interface ReadWriteInterface<T> {
 
-    ShowMessage showMessage = new ShowMessage();
-
-    LinkedList<String>[] readAllToString(ArrayList<String> inputFiles, String sortType);
-    LinkedList<Integer>[] readAllToInteger(ArrayList<String> inputFiles, String sortType);
+    List<T>[] readAllToString(ArrayList<String> inputFiles, int sortType);
     void writeToFile(List<String> result, String outFile) throws IOException;
 
 }

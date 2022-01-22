@@ -3,14 +3,8 @@ import java.util.List;
 
 public class Logic implements LogicInterface {
 
-    public List<String> sortStringFiles(LinkedList<String>[] readedFiles, String sortType){
 
-        int sort;
-        if(sortType.equals("-a")){
-            sort = -1;
-        } else {
-            sort = 1;
-        }
+    public List<String> sortStringFiles(List<String>[] readedFiles, int sortType){
 
         boolean stopIt = false;
         int[] position = new int[readedFiles.length];
@@ -33,7 +27,7 @@ public class Logic implements LogicInterface {
 
                     if(position[k] < readedFiles[k].size()) {
 
-                        if (valueToWrite.compareTo(readedFiles[k].get(position[k])) * sort < 0) {
+                        if (valueToWrite.compareTo(readedFiles[k].get(position[k])) * sortType < 0) {
                             valueToWrite = readedFiles[k].get(position[k]);
                             valuePosition = k;
 
@@ -59,14 +53,7 @@ public class Logic implements LogicInterface {
         return result;
     }
 
-    public List<Integer> sortIntegerFiles(LinkedList<Integer>[] readedFiles, String sortType) {
-
-         int sort;
-         if (sortType.equals("-a")) {
-             sort = -1;
-         } else {
-             sort = 1;
-         }
+    public List<Integer> sortIntegerFiles(List<Integer>[] readedFiles, int sortType) {
 
          boolean stopIt = false;
          int[] position = new int[readedFiles.length];
@@ -89,7 +76,7 @@ public class Logic implements LogicInterface {
 
                  if (position[k] < readedFiles[k].size()) {
 
-                     if (valueToWrite.compareTo(readedFiles[k].get(position[k])) * sort < 0) {
+                     if (valueToWrite.compareTo(readedFiles[k].get(position[k])) * sortType < 0) {
                          valueToWrite = readedFiles[k].get(position[k]);
                          valuePosition = k;
 

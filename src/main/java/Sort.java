@@ -7,13 +7,19 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class Sort {
+
+    final static String ASCENDING = "-a";
+    final static String DESCENDING = "-d";
+    final static String TYPESTRING = "-s";
+    final static String TYPEINTEGER = "-i";
+
     public static void main(String[] args) {
 
-        ShowMessage showMessage = new ShowMessage();
-        ReadWrite readWrite = new ReadWrite();
-        Logic logic = new Logic();
+        ShowMessageInterface showMessage = new ShowMessage();
+        ReadWriteInterface readWrite = new ReadWrite();
+        LogicInterface logic = new Logic();
 
-        String sortType = "-a";
+        int sortType = -1;
         String dataType = null;
         String outputFile = null;
         ArrayList<String> inputFiles = new ArrayList<>();
@@ -21,12 +27,15 @@ public class Sort {
         if (args.length != 0) {
             int i = 0;
             while (args[i].contains("-")) {
-                if (args[i].equals("-a") || args[i].contains("-d")) {
-                    sortType = args[i];
-                } else if (args[i].equals("-i") || args[i].equals("-s")) {
-                    dataType = args[i];
+                if (args[i].equals(ASCENDING)){
+                    sortType = -1;
+                } else if (args[i].contains(DESCENDING)) {
+                            sortType = 1;
+                    } else if (args[i].equals(TYPEINTEGER) || args[i].equals(TYPESTRING)) {
+                        dataType = args[i];
+                    } else {
+                    showMessage.showUnknownParams(args[i]);
                 }
-
                 i++;
                 if (i == args.length) {
                     break;
@@ -61,12 +70,12 @@ public class Sort {
 
             List<String> result = new LinkedList<>();
 
-            if(dataType.equals("-s")) {
-                 LinkedList<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
+            if(dataType.equals(TYPESTRING)) {
+                 List<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
                  result = logic.sortStringFiles(allFilesReaded, sortType);
 
             } else {
-                LinkedList<Integer>[] allFilesReaded = readWrite.readAllToInteger(inputFiles, sortType);
+                 List<Integer>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
                     for(int copy : logic.sortIntegerFiles(allFilesReaded, sortType)){
                         result.add(Integer.toString(copy));
                     }

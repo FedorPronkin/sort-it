@@ -32,10 +32,6 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Ошибка! Данные (" + data + ")не соответствуют условиям и будут пропущены !");
     }
 
-    public  void showNotANumberMessage(String data){
-        System.out.println("Ошибка! Данные (" + data + ") не соответствуют условиям и будут пропущены (не являются целым числом)!");
-    }
-
     public  void showNotSortedMessage(String data){
         System.out.println("Ошибка! Данные (" + data + ") не соответствуют заданной сортировке и будут пропущены!");
     }
@@ -50,5 +46,13 @@ public class ShowMessage implements ShowMessageInterface {
 
     public void showNoFilesMessage(String fileName){
         System.out.println("Входной файл: " + fileName + " не найден!");
+    }
+
+    public void showCastErrorMessage(){
+        System.out.println("Ошибка преобразования данных! Данные будут пропущены!");
+    }
+
+    public void showUnknownParams(String param){
+        System.out.println("Введен неизвестный параметр (" + param + ")! Параметр будет проигнорирован!");
     }
 }
