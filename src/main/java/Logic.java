@@ -25,6 +25,7 @@ public class Logic implements LogicInterface {
                 if(position[j] < readedFiles[j].size()){
                     valueToWrite = readedFiles[j].get(position[j]);
                     valuePosition = j;
+                    break;
                 }
             }
 

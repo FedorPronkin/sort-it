@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -38,8 +39,14 @@ public class Sort {
             } else {
                 try {
                     outputFile = args[i];
+
                     for (++i; i < args.length; i++) {
-                        inputFiles.add(args[i]);
+                        File check = new File(args[i]);
+                        if(check.exists()) {
+                            inputFiles.add(args[i]);
+                        } else {
+                            showMessage.showNoFilesMessage(args[i]);
+                        }
                     }
                     if (inputFiles.size() == 0) {
                         showMessage.showNoInputFileMessage();
@@ -53,18 +60,16 @@ public class Sort {
             }
 
             List<String> result = new LinkedList<>();
-            if(dataType.equals("-s")) {
 
-                LinkedList<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
-                result = logic.sortStringFiles(allFilesReaded, sortType);
+            if(dataType.equals("-s")) {
+                 LinkedList<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
+                 result = logic.sortStringFiles(allFilesReaded, sortType);
 
             } else {
-
                 LinkedList<Integer>[] allFilesReaded = readWrite.readAllToInteger(inputFiles, sortType);
-                for(int copy : logic.sortIntegerFiles(allFilesReaded, sortType)){
-                    result.add(Integer.toString(copy));
-                }
-
+                    for(int copy : logic.sortIntegerFiles(allFilesReaded, sortType)){
+                        result.add(Integer.toString(copy));
+                    }
             }
 
             try {
@@ -79,5 +84,4 @@ public class Sort {
             exit(1);
         }
     }
-
 }

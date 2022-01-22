@@ -9,11 +9,11 @@ public class ShowMessage implements ShowMessageInterface {
     }
 
     public void showNoInputFileMessage(){
-        System.out.println("Ошибка! Отсутствуют имена входных файлов! Программа завершает работу!");
+        System.out.println("Ошибка! Отсутствуют входные файлы! Программа завершает работу!");
     }
 
     public void showOutOfMemoryMessage(){
-        System.out.println("Ошибка при чтении файла! Файл слишком большо и будет пропущен!");
+        System.out.println("Ошибка при чтении файла! Файл слишком большой и будет пропущен!");
     }
 
     public  void showNoParametersMessage(){
@@ -41,10 +41,14 @@ public class ShowMessage implements ShowMessageInterface {
     }
 
     public  void showWriteErrorMessage(String error){
-        System.out.println("Ошибка Записи в выходно  файл " + (error) + "!");
+        System.out.println("Ошибка Записи в выходной файл " + (error) + "!");
     }
 
     public void showWritingSuccessMessage() {
         System.out.println("Запись отсортированного файла успешно завершена!");
+    }
+
+    public void showNoFilesMessage(String fileName){
+        System.out.println("Входной файл: " + fileName + " не найден!");
     }
 }

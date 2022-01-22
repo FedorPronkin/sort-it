@@ -11,4 +11,5 @@ public interface ShowMessageInterface {
     void showNotSortedMessage(String data);
     void showWriteErrorMessage(String error);
     void showWritingSuccessMessage();
+    void showNoFilesMessage(String fileName);
 }

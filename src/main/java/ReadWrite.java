@@ -39,7 +39,9 @@ public class ReadWrite implements ReadWriteInterface {
                     }
                 }
                 reader.close();
-                allFilesReaded[i] = readedFile;
+                if(readedFile.size() != 0) {
+                    allFilesReaded[i] = readedFile;
+                }
 
             } catch (OutOfMemoryError e) {
                 e.printStackTrace();
@@ -94,7 +96,9 @@ public class ReadWrite implements ReadWriteInterface {
 
                 }
                 reader.close();
-                allFilesReaded[i] = readedFile;
+                if(readedFile.size() != 0) {
+                    allFilesReaded[i] = readedFile;
+                }
 
             } catch (OutOfMemoryError e) {
                 e.printStackTrace();
