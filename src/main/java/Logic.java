@@ -59,7 +59,7 @@ public class Logic implements LogicInterface {
         return result;
     }
 
-     public List<Integer> sortIntegerFiles(LinkedList<Integer>[] readedFiles, String sortType) {
+    public List<Integer> sortIntegerFiles(LinkedList<Integer>[] readedFiles, String sortType) {
 
          int sort;
          if (sortType.equals("-a")) {

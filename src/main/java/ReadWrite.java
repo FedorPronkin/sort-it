@@ -60,6 +60,7 @@ public class ReadWrite implements ReadWriteInterface {
        return allFilesReaded;
 
     }
+
     public LinkedList<Integer>[] readAllToInteger(ArrayList<String> inputFiles, String sortType) {
 
         LinkedList<Integer>[] allFilesReaded = new LinkedList[inputFiles.size()];
