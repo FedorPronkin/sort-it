@@ -68,7 +68,7 @@ public class Sort {
                 }
             }
 
-            List<String> result = new LinkedList<>();
+            List<String> result;
 
             if(dataType.equals(TYPESTRING)) {
 
