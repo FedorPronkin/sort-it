@@ -17,7 +17,7 @@ public class Sort {
 
         ShowMessageInterface showMessage = new ShowMessage();
 
-        LogicInterface logic = new Logic();
+
 
         int sortType = -1;
         String dataType = null;
@@ -71,16 +71,18 @@ public class Sort {
             List<String> result = new LinkedList<>();
 
             if(dataType.equals(TYPESTRING)) {
+
+                 LogicInterface<String> logic = new Logic<>();
                  ReadWriteInterface<String> readWrite = new ReadWrite<>();
+
                  List<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
-                 result = logic.sortStringFiles(allFilesReaded, sortType);
+                 result = logic.sortFiles(allFilesReaded, sortType);
 
             } else {
+                 LogicInterface<Integer> logic = new Logic<>();
                  ReadWriteInterface<Integer> readWrite = new ReadWrite<>();
                  List<Integer>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
-                    for(int copy : logic.sortIntegerFiles(allFilesReaded, sortType)){
-                        result.add(Integer.toString(copy));
-                    }
+                 result = logic.sortFiles(allFilesReaded, sortType);
             }
 
             try {

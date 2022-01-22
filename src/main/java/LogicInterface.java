@@ -1,6 +1,6 @@
+import java.util.LinkedList;
 import java.util.List;
 
-public interface LogicInterface {
-    List<String> sortStringFiles(List<String>[] readedFiles, int sortType);
-    List<Integer> sortIntegerFiles(List<Integer>[] sortedFiles, int sortType);
+public interface LogicInterface<T> {
+    List<String> sortFiles(List<T>[] readedFiles, int sortType);
 }
