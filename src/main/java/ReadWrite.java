@@ -54,16 +54,10 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                         data.set(position, null);
                         break;
                     } else if(data.get(position).compareTo(readed) * sortType > 0) {
-                        System.out.println("Compare: " + data.get(position) + "("+data.get(position).getClass().getSimpleName()+")"+
-                                " with " + readed + "("+ readed.getClass().getSimpleName()+"), result = "
-                                + data.get(position).compareTo(readed) * sortType +"(added)");
                         data.set(position, readed);
                         break;
                     }else {
-                        System.out.println("Compare: " + data.get(position) + "("+data.get(position).getClass().getSimpleName()+")"+
-                                " with " + readed + "("+ readed.getClass().getSimpleName()+"), result = "
-                                + data.get(position).compareTo(readed) * sortType +"(skipped)");
-                        //showMessage.showNotSortedMessage(readed, inputFiles.get(position));
+                        showMessage.showNotSortedMessage((String)readed, inputFiles.get(position));
                         }
                     }
 
