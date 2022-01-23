@@ -6,11 +6,12 @@ public interface ShowMessageInterface {
     void showNoParametersMessage();
     void showFileNotFoundMessage(String error);
     void showReadingErrorMessage(String error);
-    void showDataErrorMessage(String data);
+    void showDataErrorMessage();
     void showNotSortedMessage(String data, String fileName);
     void showWriteErrorMessage(String error);
     void showWritingSuccessMessage();
     void showNoFilesMessage(String fileName);
     void showUnknownParams(String param);
     void showClosingFilesError(String error);
+    void showOutFileIsEmpty();
 }

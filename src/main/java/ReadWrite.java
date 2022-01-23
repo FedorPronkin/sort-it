@@ -17,6 +17,7 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
 
         ArrayList<BufferedReader> readers = new ArrayList<>(inputFiles.size());
         ArrayList<T> data = new ArrayList<>();
+        int writtenStrings =0;
 
         for (String inputFile : inputFiles) {
             try {
@@ -27,7 +28,15 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
         }
 
         for (int j = 0; j < inputFiles.size(); j++) {
-          data.add(readLine(readers.get(j)));
+            while(true) {
+                try {
+                    T gotData = readLine(readers.get(j));
+                    data.add(gotData);
+                    break;
+                } catch(ClassCastException e){
+                    showMessage.showDataErrorMessage();
+                }
+            }
         }
 
         try {
@@ -53,9 +62,16 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                 }
 
                 writer.write(value + "\n");
+                writtenStrings++;
 
                 while(true) {
-                    T gotData = readLine(readers.get(position));
+
+                    T gotData = null;
+                    try {
+                        gotData = readLine(readers.get(position));
+                    } catch (ClassCastException e) {
+                        showMessage.showDataErrorMessage();
+                    }
 
                     if(gotData == null) {
                         data.set(position, null);
@@ -83,11 +99,14 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                 exit(1);
             }
         }
-
-        return true;
+        if(writtenStrings == 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    private T readLine(BufferedReader reader){
+    private T readLine(BufferedReader reader) throws ClassCastException {
 
         try {
             String gotString = reader.readLine();
@@ -95,27 +114,16 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                 return null;
             }
             if (gotString.trim().isEmpty()) {
-                showMessage.showDataErrorMessage(gotString);
-            }
-            if(myClass.isInstance(Integer.class)) {
-                try {
+                showMessage.showDataErrorMessage();
+            } else if(myClass.isInstance(Integer.class)) {
                     return myClass.cast(Integer.parseInt(gotString));
-                } catch(NumberFormatException e){
-                    showMessage.showDataErrorMessage(gotString);
-                }
-            }
-            else{
-                try {
+            } else{
                     return myClass.cast(gotString);
-                } catch (ClassCastException e) {
-                    showMessage.showDataErrorMessage(gotString);
                 }
-            }
         } catch (IOException e) {
             showMessage.showReadingErrorMessage(e.getMessage());
         }
-
-        return null;
+     return null;
     }
 
     private boolean checkData(ArrayList<T> data){

@@ -69,13 +69,18 @@ public class Sort {
 
                  if(readWrite.sort(inputFiles, sortType, outputFile)){
                      showMessage.showWritingSuccessMessage();
+                 } else{
+                     showMessage.showOutFileIsEmpty();
                  }
+
 
             } else {
                 ReadWrite<Integer> readWrite = new ReadWrite<>(Integer.class);
 
                 if(readWrite.sort(inputFiles, sortType, outputFile)){
                     showMessage.showWritingSuccessMessage();
+                }else{
+                    showMessage.showOutFileIsEmpty();
                 }
             }
 

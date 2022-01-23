@@ -24,8 +24,8 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Ошибка! Ошибка чтения из файла. Данные могут быть потеряны! (" + error + ")");
     }
 
-    public  void showDataErrorMessage(String data){
-        System.out.println("Ошибка! Данные (" + data + ") не соответствуют условиям и будут пропущены !");
+    public  void showDataErrorMessage(){
+        System.out.println("Ошибка! Данные не соответствуют типу, указанному в параметрах и будут пропущены !");
     }
 
     public  void showNotSortedMessage(String data, String fileName){
@@ -52,4 +52,7 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Ошибка закрытия файла! " + error);
     }
 
+    public void showOutFileIsEmpty(){
+        System.out.println("Данных для выхода не нашлось. Выходной файл будет пустым!");
+    }
 }
