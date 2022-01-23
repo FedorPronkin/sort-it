@@ -99,11 +99,7 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                 exit(1);
             }
         }
-        if(writtenStrings == 0){
-            return false;
-        } else {
-            return true;
-        }
+        return writtenStrings != 0;
     }
 
     private T readLine(BufferedReader reader) throws ClassCastException {
