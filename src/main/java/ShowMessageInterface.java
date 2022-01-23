@@ -12,4 +12,5 @@ public interface ShowMessageInterface {
     void showWritingSuccessMessage();
     void showNoFilesMessage(String fileName);
     void showUnknownParams(String param);
+    void showClosingFilesError(String error);
 }

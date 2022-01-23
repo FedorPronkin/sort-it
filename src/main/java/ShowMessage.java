@@ -48,4 +48,8 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Введен неизвестный параметр (" + param + ")! Параметр будет проигнорирован!");
     }
 
+    public void showClosingFilesError(String error){
+        System.out.println("Ошибка закрытия файла! " + error);
+    }
+
 }

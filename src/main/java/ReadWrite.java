@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.ArrayList;
 
+import static java.lang.System.exit;
+
 public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
 
     ShowMessageInterface showMessage = new ShowMessage();
@@ -77,7 +79,8 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
             try {
                 file.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                showMessage.showClosingFilesError(e.getMessage());
+                exit(1);
             }
         }
 
