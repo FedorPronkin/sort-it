@@ -1,8 +1,5 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import static java.lang.System.exit;
 
@@ -16,8 +13,6 @@ public class Sort {
     public static void main(String[] args) {
 
         ShowMessageInterface showMessage = new ShowMessage();
-
-
 
         int sortType = -1;
         String dataType = null;
@@ -68,29 +63,20 @@ public class Sort {
                 }
             }
 
-            List<String> result;
-
             if(dataType.equals(TYPESTRING)) {
 
-                 LogicInterface<String> logic = new Logic<>();
                  ReadWriteInterface<String> readWrite = new ReadWrite<>();
 
-                 List<String>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
-                 result = logic.sortFiles(allFilesReaded, sortType);
+                 if(readWrite.sort(inputFiles, sortType, outputFile)){
+                     showMessage.showWritingSuccessMessage();
+                 }
 
             } else {
-                 LogicInterface<Integer> logic = new Logic<>();
                  ReadWriteInterface<Integer> readWrite = new ReadWrite<>();
-                 List<Integer>[] allFilesReaded = readWrite.readAllToString(inputFiles, sortType);
-                 result = logic.sortFiles(allFilesReaded, sortType);
-            }
 
-            try {
-                ReadWriteInterface<String> readWrite = new ReadWrite<>();
-                readWrite.writeToFile(result, outputFile);
-                showMessage.showWritingSuccessMessage();
-            } catch (IOException error){
-                showMessage.showWriteErrorMessage(error.getMessage());
+                if(readWrite.sort(inputFiles, sortType, outputFile)){
+                    showMessage.showWritingSuccessMessage();
+                }
             }
 
         } else {

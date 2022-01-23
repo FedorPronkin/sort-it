@@ -32,8 +32,8 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Ошибка! Данные (" + data + ")не соответствуют условиям и будут пропущены !");
     }
 
-    public  void showNotSortedMessage(String data){
-        System.out.println("Ошибка! Данные (" + data + ") не соответствуют заданной сортировке и будут пропущены!");
+    public  void showNotSortedMessage(String data, String fileName){
+        System.out.println("Ошибка! Данные (" + data + ") в файле " + fileName + " не соответствуют заданной сортировке и будут пропущены!");
     }
 
     public  void showWriteErrorMessage(String error){

@@ -8,7 +8,7 @@ public interface ShowMessageInterface {
     void showFileNotFoundMessage(String error);
     void showReadingErrorMessage(String error);
     void showDataErrorMessage(String data);
-    void showNotSortedMessage(String data);
+    void showNotSortedMessage(String data, String fileName);
     void showWriteErrorMessage(String error);
     void showWritingSuccessMessage();
     void showNoFilesMessage(String fileName);

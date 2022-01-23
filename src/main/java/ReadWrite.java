@@ -7,65 +7,105 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T>
 
     ShowMessageInterface showMessage = new ShowMessage();
 
-    public List<T>[] readAllToString(ArrayList<String> inputFiles, int sortType) {
+    public boolean sort(ArrayList<String> inputFiles, int sortType, String outFile) {
 
-        List<T>[] allFilesReaded = new LinkedList[inputFiles.size()];
+        ArrayList<BufferedReader> readers = new ArrayList<>(inputFiles.size());
+        ArrayList<T> data = new ArrayList<>();
 
-        for(int i=0; i < inputFiles.size();i++){
 
-            try{
+        for (String inputFile : inputFiles) {
+            try {
+                readers.add(new BufferedReader(new FileReader(inputFile)));
+            } catch (FileNotFoundException e) {
+                showMessage.showFileNotFoundMessage(inputFile);
+            }
+        }
 
-                File file = new File(inputFiles.get(i));
-                BufferedReader reader = new BufferedReader(new FileReader(file));
 
-                String readedString;
-                LinkedList<T> readedFile = new LinkedList<>();
+        for (int j = 0; j < inputFiles.size(); j++) {
+          data.add(readLine(readers.get(j)));
+        }
 
-                while((readedString = reader.readLine())!=null) {
+        try {
+            File file = new File(outFile);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-                    if (readedString.contains(" ") || readedString.equals("")) {
-                        showMessage.showDataErrorMessage(readedString);
-                    } else if (readedFile.size() > 0 && ((String) readedFile.get(readedFile.size() - 1)).compareTo(readedString) * sortType < 0) {
-                        showMessage.showNotSortedMessage(readedString);
-                    } else {
-                        try {
-                            readedFile.add((T) readedString);
-                        } catch (ClassCastException e) {
-                            showMessage.showDataErrorMessage(readedString);
-                        }
+            while(checkData(data)){
+                T value = data.get(0);
+                int position = 0;
+
+                for(int i = 1; i < data.size(); i++){
+                    if(data.get(i) != null) {
+                        value = data.get(i);
+                        position = i;
                     }
                 }
-                reader.close();
-                if(readedFile.size() != 0) {
-                    allFilesReaded[i] = readedFile;
+
+                for(int i = 0; i < data.size(); i ++) {
+                    if(data.get(i) != null)
+                    if (value.compareTo(data.get(i)) * sortType < 0) {
+                        value = data.get(i);
+                        position = i;
+                    }
                 }
 
-            } catch (OutOfMemoryError e) {
+                writer.write(value + "\n");
+
+                while(true) {
+                    T readed = readLine(readers.get(position));
+                    if(readed == null) {
+                        data.set(position, null);
+                        break;
+                    } else if(data.get(position).compareTo(readed) * sortType > 0) {
+                        data.set(position, readed);
+                        break;
+                    }else {
+                        showMessage.showNotSortedMessage((String)readed, inputFiles.get(position));
+                        }
+                    }
+
+            }
+            writer.close();
+        } catch (IOException e) {
+            showMessage.showWriteErrorMessage(e.getMessage());
+            return false;
+        }
+
+        for (BufferedReader file : readers) {
+            try {
+                file.close();
+            } catch (IOException e) {
                 e.printStackTrace();
-                showMessage.showOutOfMemoryMessage();
             }
-            catch(FileNotFoundException e){
-                showMessage.showFileNotFoundMessage(e.getMessage());
-            }
-            catch (IOException e){
-                showMessage.showReadingErrorMessage(e.getMessage());
-
-            }
-
         }
 
-       return allFilesReaded;
-
+        return true;
     }
 
-    public void writeToFile(List<String> result, String outFile) throws IOException{
-        File file = new File(outFile);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    private T readLine(BufferedReader reader){
 
-        for(String element : result){
-            writer.write(element + "\n");
+        try {
+            String readedString = reader.readLine();
+            if(readedString == null){
+                return null;
+            }
+            if (readedString.contains(" ") || readedString.equals("")) {
+                showMessage.showDataErrorMessage(readedString);
+            }
+            return (T)readedString;
+        } catch (IOException e) {
+            showMessage.showReadingErrorMessage(e.getMessage());
+            return null;
         }
-
-        writer.close();
     }
+
+    private boolean checkData(ArrayList<T> data){
+        for (T datum : data) {
+            if (datum != null) {
+                return true;
+            }
+        }
+       return false;
+    }
+
 }

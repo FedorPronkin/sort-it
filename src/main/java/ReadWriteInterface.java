@@ -5,7 +5,6 @@ import java.util.List;
 
 public interface ReadWriteInterface<T> {
 
-    List<T>[] readAllToString(ArrayList<String> inputFiles, int sortType);
-    void writeToFile(List<String> result, String outFile) throws IOException;
+    boolean sort(ArrayList<String> inputFiles, int sortType, String outFile);
 
 }
