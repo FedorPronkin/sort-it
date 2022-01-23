@@ -5,7 +5,13 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
 
     ShowMessageInterface showMessage = new ShowMessage();
 
-    public boolean sort(ArrayList<String> inputFiles, int sortType, String outFile, String dataType) {
+    private final Class<T> myClass;
+
+    public ReadWrite(Class<T> myClass) {
+        this.myClass = myClass;
+    }
+
+    public boolean sort(ArrayList<String> inputFiles, int sortType, String outFile) {
 
         ArrayList<BufferedReader> readers = new ArrayList<>(inputFiles.size());
         ArrayList<T> data = new ArrayList<>();
@@ -19,7 +25,7 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
         }
 
         for (int j = 0; j < inputFiles.size(); j++) {
-          data.add(readLine(readers.get(j), dataType));
+          data.add(readLine(readers.get(j)));
         }
 
         try {
@@ -48,22 +54,16 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                 writer.write(value + "\n");
 
                 while(true) {
-                    T readed = readLine(readers.get(position), dataType);
+                    T gotData = readLine(readers.get(position));
 
-                    if(readed == null) {
+                    if(gotData == null) {
                         data.set(position, null);
                         break;
-                    } else if(data.get(position).compareTo(readed) * sortType > 0) {
-                        System.out.println("Compare: " + data.get(position) + "("+data.get(position).getClass().getSimpleName()+")"+
-                                " with " + readed + "("+ readed.getClass().getSimpleName()+"), result = "
-                                + data.get(position).compareTo(readed) * sortType +"(added)");
-                        data.set(position, readed);
+                    } else if(data.get(position).compareTo(gotData) * sortType > 0) {
+                        data.set(position, gotData);
                         break;
                     }else {
-                        System.out.println("Compare: " + data.get(position) + "("+data.get(position).getClass().getSimpleName()+")"+
-                                " with " + readed + "("+ readed.getClass().getSimpleName()+"), result = "
-                                + data.get(position).compareTo(readed) * sortType +"(skipped)");
-                        //showMessage.showNotSortedMessage(readed, inputFiles.get(position));
+                         showMessage.showNotSortedMessage((String) gotData, inputFiles.get(position));
                         }
                     }
 
@@ -85,21 +85,21 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
         return true;
     }
 
-    private T readLine(BufferedReader reader, String dataType){
+    private T readLine(BufferedReader reader){
 
         try {
             String readedString = reader.readLine();
             if(readedString == null){
                 return null;
             }
-            if (readedString.contains(" ") || readedString.equals("")) {
+            if (readedString.trim().isEmpty()) {
                 showMessage.showDataErrorMessage(readedString);
             }
-            if(dataType.equals(Sort.TYPEINTEGER)) {
-                return (T) (Integer) (Integer.parseInt(readedString));
+            if(myClass.isInstance(Integer.class)) {
+                return myClass.cast(Integer.parseInt(readedString));
             }
             else{
-                return (T) readedString;
+                return myClass.cast(readedString);
             }
         } catch (IOException e) {
             showMessage.showReadingErrorMessage(e.getMessage());

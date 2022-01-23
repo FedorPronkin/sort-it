@@ -65,16 +65,16 @@ public class Sort {
 
             if(dataType.equals(TYPESTRING)) {
 
-                 ReadWriteInterface readWrite = new ReadWrite<>();
+                 ReadWriteInterface readWrite = new ReadWrite<>(String.class);
 
-                 if(readWrite.sort(inputFiles, sortType, outputFile, dataType)){
+                 if(readWrite.sort(inputFiles, sortType, outputFile)){
                      showMessage.showWritingSuccessMessage();
                  }
 
             } else {
-                 ReadWriteInterface readWrite = new ReadWrite<Integer>();
+                ReadWrite<Integer> readWrite = new ReadWrite<>(Integer.class);
 
-                if(readWrite.sort(inputFiles, sortType, outputFile, dataType)){
+                if(readWrite.sort(inputFiles, sortType, outputFile)){
                     showMessage.showWritingSuccessMessage();
                 }
             }
