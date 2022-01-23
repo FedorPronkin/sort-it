@@ -55,4 +55,12 @@ public class ShowMessage implements ShowMessageInterface {
     public void showOutFileIsEmpty(){
         System.out.println("Данных для выхода не нашлось. Выходной файл будет пустым!");
     }
+
+    public void showTooManyDataTypeParams(){
+        System.out.println("Введено слишком много параметров, указывающих тип входных данных. Будет учтён только первый, остальные будут проигнорированы!");
+    }
+
+    public void showTooManySortParams(){
+        System.out.println("Введено слишком много параметров сортировки. Будет учтён только первый, остальные будут проигнорированы!");
+    }
 }

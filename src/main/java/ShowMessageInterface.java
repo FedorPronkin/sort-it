@@ -14,4 +14,6 @@ public interface ShowMessageInterface {
     void showUnknownParams(String param);
     void showClosingFilesError(String error);
     void showOutFileIsEmpty();
+    void showTooManyDataTypeParams();
+    void showTooManySortParams();
 }

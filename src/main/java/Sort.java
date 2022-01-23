@@ -14,7 +14,7 @@ public class Sort {
 
         ShowMessageInterface showMessage = new ShowMessage();
 
-        int sortType = -1;
+        int sortType = 0;
         String dataType = null;
         String outputFile = null;
         ArrayList<String> inputFiles = new ArrayList<>();
@@ -23,11 +23,23 @@ public class Sort {
             int i = 0;
             while (args[i].contains("-")) {
                 if (args[i].equals(ASCENDING)){
-                    sortType = -1;
+                    if(sortType == 0) {
+                        sortType = -1;
+                    }else{
+                        showMessage.showTooManySortParams();
+                    }
                 } else if (args[i].contains(DESCENDING)) {
+                    if(sortType == 0) {
                             sortType = 1;
+                         }else{
+                           showMessage.showTooManySortParams();
+                         }
                     } else if (args[i].equals(TYPEINTEGER) || args[i].equals(TYPESTRING)){
-                          dataType = args[i];
+                            if(dataType != null){
+                                showMessage.showTooManyDataTypeParams();
+                            }else {
+                             dataType = args[i];
+                            }
                         } else {
                          showMessage.showUnknownParams(args[i]);
                      }
