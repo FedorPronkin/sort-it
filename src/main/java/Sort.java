@@ -49,6 +49,10 @@ public class Sort {
                 }
             }
 
+            if(sortType == 0){
+                sortType = -1;
+            }
+
             if (dataType == null) {
                 showMessage.showOutOfDataTypeError();
                 exit(1);
