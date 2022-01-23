@@ -12,10 +12,6 @@ public class ShowMessage implements ShowMessageInterface {
         System.out.println("Ошибка! Отсутствуют входные файлы! Программа завершает работу!");
     }
 
-    public void showOutOfMemoryMessage(){
-        System.out.println("Ошибка при чтении файла! Файл слишком большой и будет пропущен!");
-    }
-
     public  void showNoParametersMessage(){
         System.out.println("Ошибка! Отсутствуют обязательные параметры запуска!");
     }
@@ -29,7 +25,7 @@ public class ShowMessage implements ShowMessageInterface {
     }
 
     public  void showDataErrorMessage(String data){
-        System.out.println("Ошибка! Данные (" + data + ")не соответствуют условиям и будут пропущены !");
+        System.out.println("Ошибка! Данные (" + data + ") не соответствуют условиям и будут пропущены !");
     }
 
     public  void showNotSortedMessage(String data, String fileName){
@@ -51,4 +47,5 @@ public class ShowMessage implements ShowMessageInterface {
     public void showUnknownParams(String param){
         System.out.println("Введен неизвестный параметр (" + param + ")! Параметр будет проигнорирован!");
     }
+
 }

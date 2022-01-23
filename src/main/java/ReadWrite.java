@@ -31,7 +31,6 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
         try {
             File file = new File(outFile);
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-
             while(checkData(data)){
                 T value = data.get(0);
                 int position = 0;
@@ -88,23 +87,32 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
     private T readLine(BufferedReader reader){
 
         try {
-            String readedString = reader.readLine();
-            if(readedString == null){
+            String gotString = reader.readLine();
+            if(gotString == null){
                 return null;
             }
-            if (readedString.trim().isEmpty()) {
-                showMessage.showDataErrorMessage(readedString);
+            if (gotString.trim().isEmpty()) {
+                showMessage.showDataErrorMessage(gotString);
             }
             if(myClass.isInstance(Integer.class)) {
-                return myClass.cast(Integer.parseInt(readedString));
+                try {
+                    return myClass.cast(Integer.parseInt(gotString));
+                } catch(NumberFormatException e){
+                    showMessage.showDataErrorMessage(gotString);
+                }
             }
             else{
-                return myClass.cast(readedString);
+                try {
+                    return myClass.cast(gotString);
+                } catch (ClassCastException e) {
+                    showMessage.showDataErrorMessage(gotString);
+                }
             }
         } catch (IOException e) {
             showMessage.showReadingErrorMessage(e.getMessage());
-            return null;
         }
+
+        return null;
     }
 
     private boolean checkData(ArrayList<T> data){

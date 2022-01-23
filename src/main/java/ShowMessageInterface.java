@@ -3,7 +3,6 @@ public interface ShowMessageInterface {
     void showOutOfDataTypeError();
     void showNoOutFileMessage();
     void showNoInputFileMessage();
-    void showOutOfMemoryMessage();
     void showNoParametersMessage();
     void showFileNotFoundMessage(String error);
     void showReadingErrorMessage(String error);
