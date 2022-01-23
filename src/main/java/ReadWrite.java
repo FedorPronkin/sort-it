@@ -1,17 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T> {
+public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
 
     ShowMessageInterface showMessage = new ShowMessage();
 
-    public boolean sort(ArrayList<String> inputFiles, int sortType, String outFile) {
+    public boolean sort(ArrayList<String> inputFiles, int sortType, String outFile, String dataType) {
 
         ArrayList<BufferedReader> readers = new ArrayList<>(inputFiles.size());
         ArrayList<T> data = new ArrayList<>();
-
 
         for (String inputFile : inputFiles) {
             try {
@@ -21,9 +18,8 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T>
             }
         }
 
-
         for (int j = 0; j < inputFiles.size(); j++) {
-          data.add(readLine(readers.get(j)));
+          data.add(readLine(readers.get(j), dataType));
         }
 
         try {
@@ -52,15 +48,22 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T>
                 writer.write(value + "\n");
 
                 while(true) {
-                    T readed = readLine(readers.get(position));
+                    T readed = readLine(readers.get(position), dataType);
+
                     if(readed == null) {
                         data.set(position, null);
                         break;
                     } else if(data.get(position).compareTo(readed) * sortType > 0) {
+                        System.out.println("Compare: " + data.get(position) + "("+data.get(position).getClass().getSimpleName()+")"+
+                                " with " + readed + "("+ readed.getClass().getSimpleName()+"), result = "
+                                + data.get(position).compareTo(readed) * sortType +"(added)");
                         data.set(position, readed);
                         break;
                     }else {
-                        showMessage.showNotSortedMessage((String)readed, inputFiles.get(position));
+                        System.out.println("Compare: " + data.get(position) + "("+data.get(position).getClass().getSimpleName()+")"+
+                                " with " + readed + "("+ readed.getClass().getSimpleName()+"), result = "
+                                + data.get(position).compareTo(readed) * sortType +"(skipped)");
+                        //showMessage.showNotSortedMessage(readed, inputFiles.get(position));
                         }
                     }
 
@@ -82,7 +85,7 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T>
         return true;
     }
 
-    private T readLine(BufferedReader reader){
+    private T readLine(BufferedReader reader, String dataType){
 
         try {
             String readedString = reader.readLine();
@@ -92,7 +95,12 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface<T>
             if (readedString.contains(" ") || readedString.equals("")) {
                 showMessage.showDataErrorMessage(readedString);
             }
-            return (T)readedString;
+            if(dataType.equals(Sort.TYPEINTEGER)) {
+                return (T) (Integer) (Integer.parseInt(readedString));
+            }
+            else{
+                return (T) readedString;
+            }
         } catch (IOException e) {
             showMessage.showReadingErrorMessage(e.getMessage());
             return null;
