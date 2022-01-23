@@ -10,9 +10,10 @@ public class Sort {
     final static String TYPESTRING = "-s";
     final static String TYPEINTEGER = "-i";
 
+    static ShowMessageInterface showMessage = new ShowMessage();
+
     public static void main(String[] args) {
 
-        ShowMessageInterface showMessage = new ShowMessage();
 
         int sortType = 0;
         String dataType = null;
@@ -22,34 +23,34 @@ public class Sort {
         if (args.length != 0) {
             int i = 0;
             while (args[i].contains("-")) {
-                if (args[i].equals(ASCENDING)){
-                    if(sortType == 0) {
+                if (args[i].equals(ASCENDING)) {
+                    if (sortType == 0) {
                         sortType = -1;
-                    }else{
+                    } else {
                         showMessage.showTooManySortParams();
                     }
                 } else if (args[i].contains(DESCENDING)) {
-                    if(sortType == 0) {
-                            sortType = 1;
-                         }else{
-                           showMessage.showTooManySortParams();
-                         }
-                    } else if (args[i].equals(TYPEINTEGER) || args[i].equals(TYPESTRING)){
-                            if(dataType != null){
-                                showMessage.showTooManyDataTypeParams();
-                            }else {
-                             dataType = args[i];
-                            }
-                        } else {
-                         showMessage.showUnknownParams(args[i]);
-                     }
+                    if (sortType == 0) {
+                        sortType = 1;
+                    } else {
+                        showMessage.showTooManySortParams();
+                    }
+                } else if (args[i].equals(TYPEINTEGER) || args[i].equals(TYPESTRING)) {
+                    if (dataType != null) {
+                        showMessage.showTooManyDataTypeParams();
+                    } else {
+                        dataType = args[i];
+                    }
+                } else {
+                    showMessage.showUnknownParams(args[i]);
+                }
                 i++;
                 if (i == args.length) {
                     break;
                 }
             }
 
-            if(sortType == 0){
+            if (sortType == 0) {
                 sortType = -1;
             }
 
@@ -57,52 +58,62 @@ public class Sort {
                 showMessage.showOutOfDataTypeError();
                 exit(1);
             } else {
-                try {
-                    outputFile = args[i];
-
-                    for (++i; i < args.length; i++) {
-                        File check = new File(args[i]);
-                        if(check.exists()) {
-                            inputFiles.add(args[i]);
-                        } else {
-                            showMessage.showNoFilesMessage(args[i]);
-                        }
-                    }
-                    if (inputFiles.size() == 0) {
-                        showMessage.showNoInputFileMessage();
-                        exit(1);
-                    }
-                } catch (ArrayIndexOutOfBoundsException exception) {
-                    showMessage.showNoOutFileMessage();
-                    showMessage.showNoInputFileMessage();
-                    exit(1);
-                }
+                outputFile = args[i];
+                inputFiles = readInputFiles(i, args);
             }
 
-            if(dataType.equals(TYPESTRING)) {
-
-                 ReadWriteInterface readWrite = new ReadWrite<>(String.class);
-
-                 if(readWrite.sort(inputFiles, sortType, outputFile)){
-                     showMessage.showWritingSuccessMessage();
-                 } else{
-                     showMessage.showOutFileIsEmpty();
-                 }
-
-
-            } else {
-                ReadWrite<Integer> readWrite = new ReadWrite<>(Integer.class);
-
-                if(readWrite.sort(inputFiles, sortType, outputFile)){
-                    showMessage.showWritingSuccessMessage();
-                }else{
-                    showMessage.showOutFileIsEmpty();
-                }
-            }
+            //Запуск сортировки и вывод результата
+            extracted(sortType, dataType, outputFile, inputFiles);
 
         } else {
             showMessage.showNoParametersMessage();
             exit(1);
         }
+    }
+
+    private static void extracted(int sortType, String dataType, String outputFile, ArrayList<String> inputFiles) {
+        if (dataType.equals(TYPESTRING)) {
+
+            ReadWriteInterface readWrite = new ReadWrite<>(String.class);
+
+            if (readWrite.sortFiles(inputFiles, sortType, outputFile)) {
+                showMessage.showWritingSuccessMessage();
+            } else {
+                showMessage.showOutFileIsEmpty();
+            }
+
+
+        } else {
+            ReadWrite<Integer> readWrite = new ReadWrite<>(Integer.class);
+
+            if (readWrite.sortFiles(inputFiles, sortType, outputFile)) {
+                showMessage.showWritingSuccessMessage();
+            } else {
+                showMessage.showOutFileIsEmpty();
+            }
+        }
+    }
+
+    private static ArrayList<String> readInputFiles(int argPosition, String[] args) {
+        ArrayList<String> inputFiles = new ArrayList<>();
+        try {
+            for (++argPosition; argPosition < args.length; argPosition++) {
+                File check = new File(args[argPosition]);
+                if (check.exists()) {
+                    inputFiles.add(args[argPosition]);
+                } else {
+                    showMessage.showNoFilesMessage(args[argPosition]);
+                }
+            }
+            if (inputFiles.size() == 0) {
+                showMessage.showNoInputFileMessage();
+                exit(1);
+            }
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            showMessage.showNoOutFileMessage();
+            showMessage.showNoInputFileMessage();
+            exit(1);
+        }
+        return inputFiles;
     }
 }
