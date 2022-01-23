@@ -103,7 +103,6 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
     }
 
     private T readLine(BufferedReader reader) throws ClassCastException {
-
         try {
             String gotString = reader.readLine();
             if(gotString == null){
@@ -111,7 +110,7 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
             }
             if (gotString.trim().isEmpty()) {
                 showMessage.showDataErrorMessage();
-            } else if(myClass.isInstance(Integer.class)) {
+            } else if(myClass.getSimpleName().equals("Integer")) {
                     return myClass.cast(Integer.parseInt(gotString));
             } else{
                     return myClass.cast(gotString);

@@ -1,5 +1,3 @@
-nnn
-mmm
-kkk
-lll
-rrrr
+1
+8
+27
