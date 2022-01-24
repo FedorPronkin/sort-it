@@ -31,8 +31,11 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
             while (true) {
                 try {
                     T gotData = readLine(readers.get(j));
-                    data.add(gotData);
-                    break;
+                    if (gotData != null && myClass.equals(String.class) && (gotData.equals(" ") || gotData.equals(""))) {
+                        showMessage.showDataErrorMessage();
+                    } else
+                        data.add(gotData);
+                        break;
                 } catch (ClassCastException e) {
                     showMessage.showDataErrorMessage();
                 }
@@ -94,6 +97,8 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
                 if (gotData == null) {
                     data.set(position, null);
                     break;
+                } else if (myClass.equals(String.class) && (gotData.equals(" ") || gotData.equals(""))) {
+                    showMessage.showDataErrorMessage();
                 } else if (data.get(position).compareTo(gotData) * sortType > 0) {
                     data.set(position, gotData);
                     break;
@@ -106,21 +111,21 @@ public class ReadWrite<T extends Comparable<T>> implements ReadWriteInterface {
         }
     }
 
-    private T readLine(BufferedReader reader) throws ClassCastException {
+    private T readLine(BufferedReader reader) throws ClassCastException  {
         try {
             String gotString = reader.readLine();
             if (gotString == null) {
                 return null;
             }
-            if (gotString.trim().isEmpty()) {
-                throw new ClassCastException();
-            } else if (myClass.equals(Integer.class)) {
+            if (myClass.equals(Integer.class)) {
                 return myClass.cast(Integer.parseInt(gotString));
             } else {
                 return myClass.cast(gotString);
             }
         } catch (IOException e) {
             showMessage.showReadingErrorMessage(e.getMessage());
+        } catch (NumberFormatException e){
+            showMessage.showDataErrorMessage();
         }
         return null;
     }
